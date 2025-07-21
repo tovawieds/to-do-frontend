@@ -50,6 +50,25 @@ export default {
       this.currentTodo = todo;
       this.isTodoShowVisible = true;
     },
+    handleUpdateTodo: function (id, params) {
+      console.log("handleUpdateTodo", id, params);
+      axios
+        .patch(`/todos/${id}.json`, params)
+        .then((response) => {
+          console.log("todos update", response);
+          this.todos = this.todos.map((todo) => {
+            if (todo.id === id) {
+              return response.data;
+            } else {
+              return todo;
+            }
+          });
+          this.handleClose();
+        })
+        .catch((error) => {
+          console.log("todos update error", error.response);
+        });
+    },
     handleClose: function () {
       this.isTodoShowVisible = false;
     },
@@ -62,7 +81,7 @@ export default {
     <TodosNew v-on:createTodo="handleCreateTodo" />
     <TodosIndex v-bind:todos="todos" v-on:showTodo="handleShowTodo" />
     <Modal v-bind:show="isTodoShowVisible" v-on:close="handleClose">
-      <TodoShow v-bind:todo="currentTodo" />
+      <TodoShow v-bind:todo="currentTodo" v-on:updateTodo="handleUpdateTodo" />
     </Modal>
   </main>
 </template>
