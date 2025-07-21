@@ -2,12 +2,16 @@
 import axios from "axios";
 import TodosIndex from "./TodosIndex.vue";
 import TodosNew from "./TodosNew.vue";
+import TodoShow from "./TodoShow.vue";
+import Modal from "./Modal.vue";
 
 export default {
   name: "Content",
   components: {
     TodosIndex,
     TodosNew,
+    TodoShow,
+    Modal,
   },
   data: function () {
     return {
@@ -16,6 +20,8 @@ export default {
         // { title: "Todo 2", description: "This is todo 2", completed: true },
         // { title: "Todo 3", description: "This is todo 3", completed: false },
       ],
+      currentTodo: {},
+      isTodoShowVisible: false,
     };
   },
   created: function () {
@@ -39,6 +45,14 @@ export default {
           console.log("todos create error", error.response);
         });
     },
+    handleShowTodo: function (todo) {
+      console.log("handleShowTodo", todo);
+      this.currentTodo = todo;
+      this.isTodoShowVisible = true;
+    },
+    handleClose: function () {
+      this.isTodoShowVisible = false;
+    },
   },
 };
 </script>
@@ -46,7 +60,10 @@ export default {
 <template>
   <main>
     <TodosNew v-on:createTodo="handleCreateTodo" />
-    <TodosIndex v-bind:todos="todos" />
+    <TodosIndex v-bind:todos="todos" v-on:showTodo="handleShowTodo" />
+    <Modal v-bind:show="isTodoShowVisible" v-on:close="handleClose">
+      <TodoShow v-bind:todo="currentTodo" />
+    </Modal>
   </main>
 </template>
 

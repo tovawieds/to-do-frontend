@@ -18,6 +18,7 @@ export default {
           Completed
         </label>
       </p>
+      <button v-on:click="$emit('showTodo', todo)">More info</button>
     </div>
   </div>
 </template>
