@@ -69,6 +69,14 @@ export default {
           console.log("todos update error", error.response);
         });
     },
+    handleDestroyTodo: function (todo) {
+      axios.delete(`/todos/${todo.id}.json`).then((response) => {
+        console.log("todo destroy", response);
+        var index = this.todos.indexOf(todo);
+        this.todos.splice(index, 1);
+        this.handleClose();
+      });
+    },
     handleClose: function () {
       this.isTodoShowVisible = false;
     },
@@ -81,7 +89,7 @@ export default {
     <TodosNew v-on:createTodo="handleCreateTodo" />
     <TodosIndex v-bind:todos="todos" v-on:showTodo="handleShowTodo" />
     <Modal v-bind:show="isTodoShowVisible" v-on:close="handleClose">
-      <TodoShow v-bind:todo="currentTodo" v-on:updateTodo="handleUpdateTodo" />
+      <TodoShow v-bind:todo="currentTodo" v-on:updateTodo="handleUpdateTodo" v-on:destroyTodo="handleDestroyTodo" />
     </Modal>
   </main>
 </template>

@@ -48,6 +48,7 @@ export default {
       </div>
       <button type="submit">Update Task</button>
     </form>
+    <button v-on:click="$emit('destroyTodo', todo)">Delete Task</button>
   </div>
 </template>
 
