@@ -8,7 +8,7 @@ export default {
 
 <template>
   <div>
-    <h1>All todos</h1>
+    <h1>All Tasks</h1>
     <div v-for="todo in todos" v-bind:key="todo.id">
       <h2>{{ todo.title }}</h2>
       <p>{{ todo.description }}</p>
